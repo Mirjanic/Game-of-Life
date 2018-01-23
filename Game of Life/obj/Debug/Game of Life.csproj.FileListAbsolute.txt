@@ -1,0 +1,39 @@
+D:\GitHub\ProjectKrebs\Game of Life\Game of Life\bin\Debug\Game of Life.exe.config
+D:\GitHub\ProjectKrebs\Game of Life\Game of Life\bin\Debug\Game of Life.exe
+D:\GitHub\ProjectKrebs\Game of Life\Game of Life\bin\Debug\Game of Life.pdb
+D:\GitHub\ProjectKrebs\Game of Life\Game of Life\obj\Debug\Game of Life.csprojResolveAssemblyReference.cache
+D:\GitHub\ProjectKrebs\Game of Life\Game of Life\obj\Debug\Game_of_Life.Form1.resources
+D:\GitHub\ProjectKrebs\Game of Life\Game of Life\obj\Debug\Game_of_Life.Properties.Resources.resources
+D:\GitHub\ProjectKrebs\Game of Life\Game of Life\obj\Debug\Game of Life.csproj.GenerateResource.Cache
+D:\GitHub\ProjectKrebs\Game of Life\Game of Life\obj\Debug\Game of Life.exe
+D:\GitHub\ProjectKrebs\Game of Life\Game of Life\obj\Debug\Game of Life.pdb
+d:\GitHub\Game of Life\Game of Life\Game of Life\bin\Debug\Game of Life.exe.config
+d:\GitHub\Game of Life\Game of Life\Game of Life\obj\Debug\Game of Life.exe
+d:\GitHub\Game of Life\Game of Life\Game of Life\obj\Debug\Game of Life.pdb
+d:\GitHub\Game of Life\Game of Life\Game of Life\bin\Debug\Game of Life.exe
+d:\GitHub\Game of Life\Game of Life\Game of Life\bin\Debug\Game of Life.pdb
+d:\GitHub\Game of Life\Game of Life\Game of Life\obj\Debug\Game of Life.csprojResolveAssemblyReference.cache
+d:\GitHub\Game of Life\Game of Life\Game of Life\obj\Debug\Game_of_Life.Form1.resources
+d:\GitHub\Game of Life\Game of Life\Game of Life\obj\Debug\Game_of_Life.Properties.Resources.resources
+d:\GitHub\Game of Life\Game of Life\Game of Life\obj\Debug\Game of Life.csproj.GenerateResource.Cache
+d:\GitHub\Game of Life\Game of Life\Game of Life\obj\Debug\Game_of_Life.Template_Picker.resources
+d:\GitHub\Game of Life\Game of Life\Game of Life\bin\Debug\Templates\Beacon.life
+d:\GitHub\Game of Life\Game of Life\Game of Life\bin\Debug\Templates\Glider.life
+d:\GitHub\Game of Life\Game of Life\Game of Life\bin\Debug\Templates\Pulsar.life
+d:\GitHub\Game of Life\Game of Life\bin\Debug\Game of Life.exe.config
+d:\GitHub\Game of Life\Game of Life\obj\Debug\Game of Life.exe
+d:\GitHub\Game of Life\Game of Life\obj\Debug\Game of Life.pdb
+d:\GitHub\Game of Life\Game of Life\bin\Debug\Templates\Beacon.life
+d:\GitHub\Game of Life\Game of Life\bin\Debug\Templates\Glider.life
+d:\GitHub\Game of Life\Game of Life\bin\Debug\Templates\Pulsar.life
+d:\GitHub\Game of Life\Game of Life\bin\Debug\Game of Life.exe
+d:\GitHub\Game of Life\Game of Life\bin\Debug\Game of Life.pdb
+d:\GitHub\Game of Life\Game of Life\obj\Debug\Game of Life.csprojResolveAssemblyReference.cache
+d:\GitHub\Game of Life\Game of Life\obj\Debug\Game_of_Life.Form1.resources
+d:\GitHub\Game of Life\Game of Life\obj\Debug\Game_of_Life.Properties.Resources.resources
+d:\GitHub\Game of Life\Game of Life\obj\Debug\Game_of_Life.Template_Picker.resources
+d:\GitHub\Game of Life\Game of Life\obj\Debug\Game of Life.csproj.GenerateResource.Cache
+d:\GitHub\Game of Life\Game of Life\bin\Debug\Templates\Stable Boats.life
+d:\GitHub\Game of Life\Game of Life\bin\Debug\Templates\Gosper glider gun.life
+d:\GitHub\Game of Life\Game of Life\bin\Debug\Templates\Queen bee shuttle.life
+d:\GitHub\Game of Life\Game of Life\bin\Debug\Templates\Eater.life
