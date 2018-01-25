@@ -29,12 +29,14 @@ namespace Game_of_Life
         {
             l.Next();
             pictureBox1.Refresh();
+            button7.Enabled = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             l.Next();
             pictureBox1.Refresh();
+            button7.Enabled = true;
         }
 
         private void x_ValueChanged(object sender, EventArgs e)
@@ -82,21 +84,34 @@ namespace Game_of_Life
         {
             openLife.ShowDialog();
             if (openLife.FileName == null) return;
-            l.Import(new StreamReader(openLife.FileName));
+            import(openLife.FileName);
+        }
+        private void import(string s)
+        {
+            l.Import(new StreamReader(s));
+            button7.Enabled = l.Reversible;
             pictureBox1.Refresh();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            l.Clear();
+            l.Reset();
+            if (!l.Reversible) button7.Enabled = false;
             pictureBox1.Refresh();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             var tp = new Template_Picker();
-            tp.FormClosing += (object sender1, FormClosingEventArgs e1) => { if(tp._SelectedPath!=null)l.Import(new StreamReader(tp._SelectedPath)); pictureBox1.Refresh(); };
+            tp.FormClosing += (object sender1, FormClosingEventArgs e1) => { if (tp._SelectedPath != null) import(tp._SelectedPath); };
             tp.ShowDialog();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            l.Previous();
+            if (!l.Reversible) button7.Enabled = false;
+            pictureBox1.Refresh();
         }
     }
 }

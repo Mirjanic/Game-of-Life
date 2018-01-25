@@ -91,6 +91,9 @@
     <None Include="Templates\Eater.life">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\Expanding line.life">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\Glider.life">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
