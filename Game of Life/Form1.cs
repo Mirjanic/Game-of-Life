@@ -12,7 +12,9 @@ namespace Game_of_Life
             InitializeComponent();
             l = new Life((int)x.Value, (int)y.Value);
             pictureBox1.Refresh();
+            l1 = new Life1(pictureBox2);
         }
+        Life1 l1;
         Life l;
         private void button1_Click(object sender, EventArgs e)
         {
@@ -27,6 +29,7 @@ namespace Game_of_Life
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            l1.Next();
             l.Next();
             pictureBox1.Refresh();
             button7.Enabled = true;
@@ -35,6 +38,7 @@ namespace Game_of_Life
         private void button2_Click(object sender, EventArgs e)
         {
             l.Next();
+            l1.Next();
             pictureBox1.Refresh();
             button7.Enabled = true;
         }
@@ -58,7 +62,7 @@ namespace Game_of_Life
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            l.MultiColor = radioButton4.Checked;
+            l1.MultiColor = l.MultiColor = radioButton4.Checked;
             pictureBox1.Refresh();
         }
 
@@ -109,6 +113,7 @@ namespace Game_of_Life
 
         private void button7_Click(object sender, EventArgs e)
         {
+            l1.Previous();
             l.Previous();
             if (!l.Reversible) button7.Enabled = false;
             pictureBox1.Refresh();
