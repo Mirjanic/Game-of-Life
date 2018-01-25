@@ -9,116 +9,9 @@ namespace Game_of_Life
 {
     class Life
     {
-        int x, y;
-        Random rnd = new Random();
-        List<bool[,]> states;
-        private bool[,] currentState {
-            get { return states[states.Count-1]; }
-            set { states[states.Count - 1] = value; }
-        }
-        public Life(int x, int y)
-        {
-            Reset(x, y);
-        }
-        public void Reset(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-            states = new List<bool[,]>();
-            states.Add(new bool[x,y]);
-            Random();
-        }
-        public void Reset()
-        {
-            states = new List<bool[,]>();
-            states.Add(new bool[x, y]);
-        }
-        public void Random()
-        {
-            for (int i = 0; i < x; i++)
-                for (int j = 0; j < y; j++)
-                    currentState[i, j] = rnd.Next(0, 6) == 0;
-        }
-        private int aliveNeighbors(int i, int j)
-        {
-            int s = 0;
-            if (i > 0 && j > 0 && currentState[i - 1, j - 1]) s++;
-            if (i > 0 && currentState[i - 1, j]) s++;
-            if (j > 0 && currentState[i, j - 1]) s++;
-            if (i > 0 && j < y - 1 && currentState[i - 1, j + 1]) s++;
-            if (j < y - 1 && currentState[i, j + 1]) s++;
-            if (i < x - 1 && j > 0 && currentState[i + 1, j - 1]) s++;
-            if (i < x - 1 && currentState[i + 1, j]) s++;
-            if (i < x - 1 && j < y - 1 && currentState[i + 1, j + 1]) s++;
-            return s;
-        }
-        public void Next()
-        {
-            bool[,] b = new bool[x, y];
-            for (int i = 0; i < x; i++)
-                for (int j = 0; j < y; j++)
-                    if ((!currentState[i, j] && aliveNeighbors(i, j) == 3) ||
-                        (currentState[i, j] && aliveNeighbors(i, j) >= 2 && aliveNeighbors(i, j) <= 3)) b[i, j] = true;
-            states.Add(b);
-        }
-        public bool Reversible { get { return states.Count > 1; } }
-        public void Previous()
-        {
-            if (!Reversible) return;
-            states.RemoveAt(states.Count - 1);
-        }
-        public bool MultiColor { get; set; }
-        private Brush color(int i,int j)
-        {
-            if(!MultiColor)
-            {
-                if (currentState[i, j]) return new Pen(Color.RoyalBlue).Brush;
-                else return new Pen(Color.White).Brush;
-            }
-            if (currentState[i, j] && (aliveNeighbors(i, j) == 2 || aliveNeighbors(i, j) == 3)) return new Pen(Color.RoyalBlue).Brush;
-            if (currentState[i, j]) return new Pen(Color.FromArgb(90, 0, 200)).Brush;
-            if (aliveNeighbors(i, j) == 3) return new Pen(Color.LightBlue).Brush;
-            return new Pen(Color.White).Brush;
-        }
-        public void Paint(Graphics g, int width, int height)
-        {
-            float w = (float)width / x;
-            float h = (float)height / y;
-            for (int i = 0; i < x; i++)
-                for (int j = 0; j < y; j++)
-                    g.FillRectangle(color(i, j), i * w, j * h, i * w + w, j * h + h);
-            for (int i = 1; i < x; i++)
-                g.DrawLine(Pens.LightGray, i * w, 0, i * w, height);
-            for (int i = 1; i < y; i++)
-                g.DrawLine(Pens.LightGray, 0, i * h, width, i * h);
-        }
-        public int X { get { return x; } }
-        public int Y { get { return y; } }
-        public void Change(int i,int j)
-        {
-            if (i < 0 || j < 0 || i > x || j > y) throw new Exception();
-            currentState[i, j] ^= true;
-        }
-        public void Export(StreamWriter sw)
-        {
-            StringBuilder sb = new StringBuilder(x + "\n" + y + "\n");
-            for (int k = 0; k < states.Count; k++)
-                for (int i = 0; i < x; i++)
-                    for (int j = 0; j < y; j++)
-                        sb.Append((states[k][i, j] ? 1 : 0) + "\n");
-            sw.Write(Convert.ToBase64String(Encoding.UTF8.GetBytes(sb.ToString())));
-            sw.Close();
-        }
-        public void Import(StreamReader sr)
-        {
-            string[] data = Encoding.UTF8.GetString(Convert.FromBase64String(sr.ReadToEnd())).Split('\n');
-            Reset(int.Parse(data[0]), int.Parse(data[1]));
-            for (int i = 1; i < (data.Length - 3) / (x * y); i++) states.Add(new bool[x, y]);
-            for (int i = 2; i < data.Length - 1; i++) states[(i - 2) / (x * y)][((i - 2) % (x * y)) / x, (i - 2) % x] = (int.Parse(data[i]) == 1);
-        }
-    }
-    class Life1
-    {
+        public delegate void LifeEventHandler();
+        public event LifeEventHandler OnStateChange;
+
         PictureBox pb;
         float x = 20,y = 15;
         int zoom;
@@ -130,41 +23,50 @@ namespace Game_of_Life
             get { return states[states.Count - 1]; }
             set { states[states.Count - 1] = value; }
         }
-        public Life1(PictureBox pb)
+        public Life(PictureBox pb, int zoom = 25)
         {
             this.pb = pb;
-            Reset();
             pb.Paint += Pb_Paint;
             pb.MouseWheel += Pb_MouseWheel;
             pb.MouseEnter += Pb_MouseEnter;
             pb.MouseDown += Pb_MouseDown;
             pb.MouseUp += Pb_MouseUp;
-            currentState.Add(new Point(0, 0));
-            currentState.Add(new Point(1,1));
+            OnStateChange += Life_OnStateChange;
+            Interactive = true;
+            this.zoom = zoom;
+            Reset();
+        }
+        private void Life_OnStateChange()
+        {
+            pb.Refresh();
         }
         private void Pb_MouseUp(object sender, MouseEventArgs e)
         {
+            if (!Interactive) return;
             if (Math.Abs(delta.X - e.X) > zoom / 4 || Math.Abs(delta.Y - e.Y) > zoom / 4)
             {
                 x += ((float)delta.X - e.X) / zoom;
                 y += ((float)delta.Y - e.Y) / zoom;
-                pb.Refresh();
-                return;
             }
-            int i = (int)Math.Floor((e.X + x*zoom - pb.Width / 2) / zoom), j = (int)Math.Floor((e.Y + y*zoom - pb.Height / 2) / zoom);
-            if (currentState.Contains(new Point(i, j))) currentState.Remove(new Point(i, j));
-            else currentState.Add(new Point(i, j));
-            pb.Refresh();
+            else
+            {
+                int i = (int)Math.Floor((e.X + x * zoom - pb.Width / 2) / zoom), j = (int)Math.Floor((e.Y + y * zoom - pb.Height / 2) / zoom);
+                if (currentState.Contains(new Point(i, j))) currentState.Remove(new Point(i, j));
+                else currentState.Add(new Point(i, j));
+            }
+            OnStateChange.Invoke();
         }
         private void Pb_MouseDown(object sender, MouseEventArgs e)
         {
+            if (!Interactive) return;
             delta = e.Location;
         }
         private void Pb_MouseEnter(object sender, EventArgs e) { pb.Focus(); }
         private void Pb_MouseWheel(object sender, MouseEventArgs e)
         {
+            if (!Interactive) return;
             zoom = Math.Max(5, zoom + Math.Sign(e.Delta));
-            pb.Refresh();
+            OnStateChange.Invoke();
         }
         private void Pb_Paint(object sender, PaintEventArgs e)
         {
@@ -187,6 +89,7 @@ namespace Game_of_Life
             x = y = 0; zoom = 25;
             states = new List<HashSet<Point>>();
             states.Add(new HashSet<Point>());
+            OnStateChange.Invoke();
         }
         private int aliveNeighbors(int x, int y)
         {
@@ -203,6 +106,7 @@ namespace Game_of_Life
         }
         public void Next()
         {
+            if (!Interactive) return;
             int[] d = { -1, 0, 1 };
             HashSet<Point> tmp = new HashSet<Point>();
             foreach (Point p in currentState)
@@ -214,16 +118,18 @@ namespace Game_of_Life
                             tmp.Add(new Point(p.X + d[i], p.Y + d[j]));
             }
             states.Add(tmp);
-            pb.Refresh();
+            OnStateChange.Invoke();
         }
         public bool Reversible { get { return states.Count > 1; } }
         public void Previous()
         {
+            if (!Interactive) return;
             if (!Reversible) return;
             states.RemoveAt(states.Count - 1);
-            pb.Refresh();
+            OnStateChange.Invoke();
         }
         public bool MultiColor { get { return multicolor; } set { multicolor = value; pb.Refresh(); } }
+        public bool Interactive { get; set; }
         private Brush color(int i, int j)
         {
             if (!MultiColor)
@@ -245,6 +151,7 @@ namespace Game_of_Life
                         sb.Append((states[k][i, j] ? 1 : 0) + "\n");
             sw.Write(Convert.ToBase64String(Encoding.UTF8.GetBytes(sb.ToString())));
             sw.Close();*/
+            OnStateChange.Invoke();
         }
         public void Import(StreamReader sr)
         {
@@ -252,6 +159,7 @@ namespace Game_of_Life
             Reset(int.Parse(data[0]), int.Parse(data[1]));
             for (int i = 1; i < (data.Length - 3) / (x * y); i++) states.Add(new bool[x, y]);
             for (int i = 2; i < data.Length - 1; i++) states[(i - 2) / (x * y)][((i - 2) % (x * y)) / x, (i - 2) % x] = (int.Parse(data[i]) == 1);*/
+            OnStateChange.Invoke();
         }
     }
 }

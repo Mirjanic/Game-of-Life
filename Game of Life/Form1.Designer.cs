@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.x = new System.Windows.Forms.NumericUpDown();
-            this.y = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -50,64 +47,15 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.x)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.y)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(500, 500);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
-            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
-            // 
-            // x
-            // 
-            this.x.Location = new System.Drawing.Point(518, 12);
-            this.x.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.x.Name = "x";
-            this.x.Size = new System.Drawing.Size(53, 20);
-            this.x.TabIndex = 1;
-            this.x.Value = new decimal(new int[] {
-            25,
-            0,
-            0,
-            0});
-            this.x.ValueChanged += new System.EventHandler(this.x_ValueChanged);
-            // 
-            // y
-            // 
-            this.y.Location = new System.Drawing.Point(577, 12);
-            this.y.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.y.Name = "y";
-            this.y.Size = new System.Drawing.Size(53, 20);
-            this.y.TabIndex = 2;
-            this.y.Value = new decimal(new int[] {
-            25,
-            0,
-            0,
-            0});
-            this.y.ValueChanged += new System.EventHandler(this.y_ValueChanged);
-            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(518, 67);
+            this.button1.Location = new System.Drawing.Point(518, 41);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(107, 23);
             this.button1.TabIndex = 3;
@@ -117,7 +65,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(518, 96);
+            this.button2.Location = new System.Drawing.Point(518, 70);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(107, 23);
             this.button2.TabIndex = 4;
@@ -134,7 +82,7 @@
             // 
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Location = new System.Drawing.Point(518, 154);
+            this.groupBox1.Location = new System.Drawing.Point(518, 128);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(107, 48);
             this.groupBox1.TabIndex = 5;
@@ -168,7 +116,7 @@
             // 
             this.groupBox2.Controls.Add(this.radioButton3);
             this.groupBox2.Controls.Add(this.radioButton4);
-            this.groupBox2.Location = new System.Drawing.Point(518, 208);
+            this.groupBox2.Location = new System.Drawing.Point(518, 182);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(107, 48);
             this.groupBox2.TabIndex = 6;
@@ -202,7 +150,7 @@
             // 
             this.groupBox3.Controls.Add(this.button4);
             this.groupBox3.Controls.Add(this.button3);
-            this.groupBox3.Location = new System.Drawing.Point(518, 262);
+            this.groupBox3.Location = new System.Drawing.Point(518, 236);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(107, 82);
             this.groupBox3.TabIndex = 7;
@@ -236,7 +184,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(518, 38);
+            this.button5.Location = new System.Drawing.Point(518, 12);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(107, 23);
             this.button5.TabIndex = 8;
@@ -246,7 +194,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(519, 351);
+            this.button6.Location = new System.Drawing.Point(519, 325);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(106, 23);
             this.button6.TabIndex = 9;
@@ -257,7 +205,7 @@
             // button7
             // 
             this.button7.Enabled = false;
-            this.button7.Location = new System.Drawing.Point(518, 125);
+            this.button7.Location = new System.Drawing.Point(518, 99);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(107, 23);
             this.button7.TabIndex = 10;
@@ -267,9 +215,9 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(656, 38);
+            this.pictureBox2.Location = new System.Drawing.Point(12, 12);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(356, 306);
+            this.pictureBox2.Size = new System.Drawing.Size(500, 500);
             this.pictureBox2.TabIndex = 11;
             this.pictureBox2.TabStop = false;
             // 
@@ -277,7 +225,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1120, 522);
+            this.ClientSize = new System.Drawing.Size(638, 522);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
@@ -287,14 +235,8 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.y);
-            this.Controls.Add(this.x);
-            this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
             this.Text = "Game of Life";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.x)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.y)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -306,10 +248,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.NumericUpDown x;
-        private System.Windows.Forms.NumericUpDown y;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Timer timer1;
