@@ -17,8 +17,11 @@ namespace Game_of_Life
         float zoom;
         bool multicolor;
         bool moving;
-        List<HashSet<Point>> states;
         Point delta = new Point();
+
+        bool[] birth = { false, false, false, true, false, false, false, false, false };
+        bool[] survival = { false, false, true, true, false, false, false, false, false };
+        List<HashSet<Point>> states;
         private HashSet<Point> currentState
         {
             get { return states[states.Count - 1]; }
@@ -37,7 +40,6 @@ namespace Game_of_Life
             Interactive = true;
             Reset();
         }
-
         private void Pb_MouseMove(object sender, MouseEventArgs e)
         {
             if (!Interactive) return;
@@ -116,10 +118,10 @@ namespace Game_of_Life
             HashSet<Point> tmp = new HashSet<Point>();
             foreach (Point p in currentState)
             {
-                if (aliveNeighbors(p) == 2 || aliveNeighbors(p) == 3) tmp.Add(p);
+                if (survival[aliveNeighbors(p)]) tmp.Add(p);
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 3; j++)
-                        if ((i != 1 || j != 1) && aliveNeighbors(new Point(p.X + d[i], p.Y + d[j])) == 3)
+                        if ((i != 1 || j != 1) && birth[aliveNeighbors(new Point(p.X + d[i], p.Y + d[j]))])
                             tmp.Add(new Point(p.X + d[i], p.Y + d[j]));
             }
             states.Add(tmp);
@@ -135,6 +137,8 @@ namespace Game_of_Life
         }
         public bool MultiColor { get { return multicolor; } set { multicolor = value; pb.Refresh(); } }
         public bool Interactive { get; set; }
+        public bool[] BirthRule { get { return birth; } set { birth = value; } }
+        public bool[] SurvivalRule { get { return survival; } set { survival = value; } }
         private Brush color(int i, int j)
         {
             if (!MultiColor)

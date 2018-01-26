@@ -70,5 +70,13 @@ namespace Game_of_Life
         {
             l.Previous();
         }
+        private void button8_Click(object sender, EventArgs e)
+        {
+            var rs = new Rules();
+            rs._B = l.BirthRule;
+            rs._S = l.SurvivalRule;
+            rs.FormClosing += (object sender1, FormClosingEventArgs e1) => { l.BirthRule = rs._B;l.SurvivalRule = rs._S; };
+            rs.ShowDialog();
+        }
     }
 }
