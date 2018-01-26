@@ -14,7 +14,7 @@ namespace Game_of_Life
 
         PictureBox pb;
         float x = 20,y = 15;
-        int zoom;
+        float zoom;
         bool multicolor;
         List<HashSet<Point>> states;
         Point delta = new Point();
@@ -23,7 +23,7 @@ namespace Game_of_Life
             get { return states[states.Count - 1]; }
             set { states[states.Count - 1] = value; }
         }
-        public Life(PictureBox pb, int zoom = 25)
+        public Life(PictureBox pb)
         {
             this.pb = pb;
             pb.Paint += Pb_Paint;
@@ -33,7 +33,6 @@ namespace Game_of_Life
             pb.MouseUp += Pb_MouseUp;
             OnStateChange += Life_OnStateChange;
             Interactive = true;
-            this.zoom = zoom;
             Reset();
         }
         private void Life_OnStateChange()
@@ -86,7 +85,7 @@ namespace Game_of_Life
         }
         public void Reset()
         {
-            x = y = 0; zoom = 25;
+            x = y = 0; zoom = pb.Width / 20;
             states = new List<HashSet<Point>>();
             states.Add(new HashSet<Point>());
             OnStateChange.Invoke();
@@ -144,21 +143,37 @@ namespace Game_of_Life
         }
         public void Export(StreamWriter sw)
         {
-            /*StringBuilder sb = new StringBuilder(x + "\n" + y + "\n");
+            StringBuilder sb = new StringBuilder(x + "A" + y + "A" + zoom / pb.Width + "A" + (Interactive ? 1 : 0) + "A");
             for (int k = 0; k < states.Count; k++)
-                for (int i = 0; i < x; i++)
-                    for (int j = 0; j < y; j++)
-                        sb.Append((states[k][i, j] ? 1 : 0) + "\n");
-            sw.Write(Convert.ToBase64String(Encoding.UTF8.GetBytes(sb.ToString())));
-            sw.Close();*/
-            OnStateChange.Invoke();
+            {
+                foreach (Point p in states[k])
+                    sb.Append(p.X + "B" + p.Y + "A");
+                sb.Append("FA");
+            }
+            while (sb.ToString().Length % 4 != 0) sb.Append("E");
+            byte[] raw = Convert.FromBase64String(sb.ToString().Replace('-', 'C').Replace(',', 'D'));
+            sw.BaseStream.Write(raw, 0, raw.Length);
+            sw.Close();
         }
         public void Import(StreamReader sr)
         {
-            /*string[] data = Encoding.UTF8.GetString(Convert.FromBase64String(sr.ReadToEnd())).Split('\n');
-            Reset(int.Parse(data[0]), int.Parse(data[1]));
-            for (int i = 1; i < (data.Length - 3) / (x * y); i++) states.Add(new bool[x, y]);
-            for (int i = 2; i < data.Length - 1; i++) states[(i - 2) / (x * y)][((i - 2) % (x * y)) / x, (i - 2) % x] = (int.Parse(data[i]) == 1);*/
+            byte[] raw = new byte[sr.BaseStream.Length];
+            sr.BaseStream.Read(raw, 0, (int)sr.BaseStream.Length);
+            string[] data = Convert.ToBase64String(raw).Replace('C', '-').Replace('D', ',').Split('A');
+            x = int.Parse(data[0]);
+            y = int.Parse(data[1]);
+            zoom = float.Parse(data[2]) * pb.Width;
+            Interactive = int.Parse(data[3]) == 1;
+            states = new List<HashSet<Point>>();
+            states.Add(new HashSet<Point>());
+            for (int i = 4; i < data.Length - 1; i++)
+            {
+                if (data[i] == "F") { states.Add(new HashSet<Point>()); continue; }
+                currentState.Add(new Point(
+                    int.Parse(data[i].Split('B')[0]), 
+                    int.Parse(data[i].Split('B')[1])));
+            }
+            states.RemoveAt(states.Count - 1);
             OnStateChange.Invoke();
         }
     }

@@ -9,8 +9,7 @@ namespace Game_of_Life
         public Template_Picker()
         {
             InitializeComponent();
-            l = new Life(pictureBox1,5);
-            l.Interactive = false;
+            l = new Life(pictureBox1);
             foreach (var file in new DirectoryInfo(Environment.CurrentDirectory + "\\Templates").EnumerateFiles())
             {
                 listBox1.Items.Add(file.Name);
