@@ -54,7 +54,7 @@ namespace Game_of_Life
         }
         private void import(string s)
         {
-            l.Import(new StreamReader(s));
+            if(s!=null && s!="") l.Import(new StreamReader(s));
         }
         private void button5_Click(object sender, EventArgs e)
         {

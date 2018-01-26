@@ -16,6 +16,7 @@ namespace Game_of_Life
         float x = 20,y = 15;
         float zoom;
         bool multicolor;
+        bool moving;
         List<HashSet<Point>> states;
         Point delta = new Point();
         private HashSet<Point> currentState
@@ -32,8 +33,20 @@ namespace Game_of_Life
             pb.MouseDown += Pb_MouseDown;
             pb.MouseUp += Pb_MouseUp;
             OnStateChange += Life_OnStateChange;
+            pb.MouseMove += Pb_MouseMove;
             Interactive = true;
             Reset();
+        }
+
+        private void Pb_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!Interactive) return;
+            if (e.Button != MouseButtons.Left) return;
+            moving = true;
+            x += ((float)delta.X - e.X) / zoom;
+            y += ((float)delta.Y - e.Y) / zoom;
+            delta = e.Location;
+            OnStateChange.Invoke();
         }
         private void Life_OnStateChange()
         {
@@ -42,17 +55,10 @@ namespace Game_of_Life
         private void Pb_MouseUp(object sender, MouseEventArgs e)
         {
             if (!Interactive) return;
-            if (Math.Abs(delta.X - e.X) > zoom / 4 || Math.Abs(delta.Y - e.Y) > zoom / 4)
-            {
-                x += ((float)delta.X - e.X) / zoom;
-                y += ((float)delta.Y - e.Y) / zoom;
-            }
-            else
-            {
-                int i = (int)Math.Floor((e.X + x * zoom - pb.Width / 2) / zoom), j = (int)Math.Floor((e.Y + y * zoom - pb.Height / 2) / zoom);
-                if (currentState.Contains(new Point(i, j))) currentState.Remove(new Point(i, j));
-                else currentState.Add(new Point(i, j));
-            }
+            if (moving) { moving = false; return; }
+            int i = (int)Math.Floor((e.X + x * zoom - pb.Width / 2) / zoom), j = (int)Math.Floor((e.Y + y * zoom - pb.Height / 2) / zoom);
+            if (currentState.Contains(new Point(i, j))) currentState.Remove(new Point(i, j));
+            else currentState.Add(new Point(i, j));
             OnStateChange.Invoke();
         }
         private void Pb_MouseDown(object sender, MouseEventArgs e)
@@ -76,7 +82,7 @@ namespace Game_of_Life
                         Math.Max(0,j * zoom - y * zoom + pb.Height / 2),
                         i * zoom - x * zoom + pb.Width / 2 + zoom, 
                         j * zoom - y * zoom + pb.Height / 2 + zoom);
-
+            if (zoom < 5) return;
             for (int i = (int)Math.Floor(x - pb.Width / 2 / zoom)-1; i <= Math.Ceiling(pb.Width / 2 / zoom + x); i++)
                 e.Graphics.DrawLine(Pens.LightGray, i*zoom - x * zoom + pb.Width / 2, 0, i*zoom - x * zoom + pb.Width / 2, pb.Height);
             for (int i = (int)(y - pb.Height / 2 / zoom)-1; i <= Math.Ceiling(pb.Height / 2 / zoom + y); i++)
@@ -143,7 +149,7 @@ namespace Game_of_Life
         }
         public void Export(StreamWriter sw)
         {
-            StringBuilder sb = new StringBuilder(x + "A" + y + "A" + zoom / pb.Width + "A" + (Interactive ? 1 : 0) + "A");
+            StringBuilder sb = new StringBuilder(x + "A" + y + "A" + zoom / pb.Width + "A");
             for (int k = 0; k < states.Count; k++)
             {
                 foreach (Point p in states[k])
@@ -160,13 +166,12 @@ namespace Game_of_Life
             byte[] raw = new byte[sr.BaseStream.Length];
             sr.BaseStream.Read(raw, 0, (int)sr.BaseStream.Length);
             string[] data = Convert.ToBase64String(raw).Replace('C', '-').Replace('D', ',').Split('A');
-            x = int.Parse(data[0]);
-            y = int.Parse(data[1]);
+            x = float.Parse(data[0]);
+            y = float.Parse(data[1]);
             zoom = float.Parse(data[2]) * pb.Width;
-            Interactive = int.Parse(data[3]) == 1;
             states = new List<HashSet<Point>>();
             states.Add(new HashSet<Point>());
-            for (int i = 4; i < data.Length - 1; i++)
+            for (int i = 3; i < data.Length - 1; i++)
             {
                 if (data[i] == "F") { states.Add(new HashSet<Point>()); continue; }
                 currentState.Add(new Point(

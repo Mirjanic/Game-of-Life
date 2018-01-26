@@ -88,9 +88,11 @@
     <None Include="Templates\Beacon.life">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\Clock.life" />
     <None Include="Templates\Eater.life">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\Escalator.life" />
     <None Include="Templates\Expanding line.life">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -100,13 +102,11 @@
     <None Include="Templates\Gosper glider gun.life">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\Pentadecathlon.life" />
     <None Include="Templates\Pulsar.life">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Templates\Queen bee shuttle.life">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\Stable Boats.life">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

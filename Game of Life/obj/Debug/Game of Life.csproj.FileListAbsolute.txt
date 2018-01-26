@@ -47,7 +47,6 @@ D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Templates\Glider.life
 D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Templates\Gosper glider gun.life
 D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Templates\Pulsar.life
 D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Templates\Queen bee shuttle.life
-D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Templates\Stable Boats.life
 D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Game of Life.exe
 D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Game of Life.pdb
 D:\GitHub\Game-of-Life\Game of Life\obj\Debug\Game of Life.csprojResolveAssemblyReference.cache
