@@ -121,7 +121,7 @@ namespace Game_of_Life
                 if (survival[aliveNeighbors(p)]) tmp.Add(p);
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 3; j++)
-                        if ((i != 1 || j != 1) && birth[aliveNeighbors(new Point(p.X + d[i], p.Y + d[j]))])
+                        if ((i != 1 || j != 1) && !currentState.Contains(new Point(p.X + d[i], p.Y + d[j])) && birth[aliveNeighbors(new Point(p.X + d[i], p.Y + d[j]))])
                             tmp.Add(new Point(p.X + d[i], p.Y + d[j]));
             }
             states.Add(tmp);
@@ -146,9 +146,9 @@ namespace Game_of_Life
                 if (currentState.Contains(new Point(i, j))) return new Pen(Color.RoyalBlue).Brush;
                 else return new Pen(Color.White).Brush;
             }
-            if (currentState.Contains(new Point(i, j)) && (aliveNeighbors(i, j) == 2 || aliveNeighbors(i, j) == 3)) return new Pen(Color.RoyalBlue).Brush;
+            if (currentState.Contains(new Point(i, j)) && survival[aliveNeighbors(i, j)]) return new Pen(Color.RoyalBlue).Brush;
             if (currentState.Contains(new Point(i, j))) return new Pen(Color.FromArgb(90, 0, 200)).Brush;
-            if (aliveNeighbors(i, j) == 3) return new Pen(Color.LightBlue).Brush;
+            if (birth[aliveNeighbors(i, j)]) return new Pen(Color.LightBlue).Brush;
             return new Pen(Color.White).Brush;
         }
         public void Export(StreamWriter sw)
