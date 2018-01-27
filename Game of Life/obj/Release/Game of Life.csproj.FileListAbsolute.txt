@@ -1,0 +1,18 @@
+D:\GitHub\Game-of-Life\Game of Life\bin\Release\Templates\Beacon.life
+D:\GitHub\Game-of-Life\Game of Life\bin\Release\Templates\Eater.life
+D:\GitHub\Game-of-Life\Game of Life\bin\Release\Templates\Expanding line.life
+D:\GitHub\Game-of-Life\Game of Life\bin\Release\Templates\Glider.life
+D:\GitHub\Game-of-Life\Game of Life\bin\Release\Templates\Gosper glider gun.life
+D:\GitHub\Game-of-Life\Game of Life\bin\Release\Templates\Pulsar.life
+D:\GitHub\Game-of-Life\Game of Life\bin\Release\Templates\Queen bee shuttle.life
+D:\GitHub\Game-of-Life\Game of Life\bin\Release\Game of Life.exe.config
+D:\GitHub\Game-of-Life\Game of Life\bin\Release\Game of Life.exe
+D:\GitHub\Game-of-Life\Game of Life\bin\Release\Game of Life.pdb
+D:\GitHub\Game-of-Life\Game of Life\obj\Release\Game of Life.csprojResolveAssemblyReference.cache
+D:\GitHub\Game-of-Life\Game of Life\obj\Release\Game_of_Life.Form1.resources
+D:\GitHub\Game-of-Life\Game of Life\obj\Release\Game_of_Life.Properties.Resources.resources
+D:\GitHub\Game-of-Life\Game of Life\obj\Release\Game_of_Life.Rules.resources
+D:\GitHub\Game-of-Life\Game of Life\obj\Release\Game_of_Life.Template_Picker.resources
+D:\GitHub\Game-of-Life\Game of Life\obj\Release\Game of Life.csproj.GenerateResource.Cache
+D:\GitHub\Game-of-Life\Game of Life\obj\Release\Game of Life.exe
+D:\GitHub\Game-of-Life\Game of Life\obj\Release\Game of Life.pdb
