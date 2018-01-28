@@ -18,6 +18,7 @@ namespace Game_of_Life
         private void L_OnStateChange()
         {
             button7.Enabled = l.Reversible;
+            radioButton5.Enabled = l.Reversible;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -25,7 +26,13 @@ namespace Game_of_Life
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            l.Next();
+            if(radioButton1.Checked) l.Next();
+            if (radioButton5.Checked)
+            {
+                if (l.Reversible) l.Previous();
+                else radioButton2.Checked = true;
+            }
+
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -77,6 +84,11 @@ namespace Game_of_Life
             rs._S = l.SurvivalRule;
             rs.FormClosing += (object sender1, FormClosingEventArgs e1) => { l.BirthRule = rs._B;l.SurvivalRule = rs._S; };
             rs.ShowDialog();
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            timer1.Enabled = !radioButton2.Checked;
         }
     }
 }

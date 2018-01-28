@@ -27,6 +27,7 @@ namespace Game_of_Life
             get { return states[states.Count - 1]; }
             set { states[states.Count - 1] = value; }
         }
+
         public Life(PictureBox pb)
         {
             this.pb = pb;
@@ -50,10 +51,7 @@ namespace Game_of_Life
             delta = e.Location;
             OnStateChange.Invoke();
         }
-        private void Life_OnStateChange()
-        {
-            pb.Refresh();
-        }
+        private void Life_OnStateChange() { pb.Refresh(); }
         private void Pb_MouseUp(object sender, MouseEventArgs e)
         {
             if (!Interactive) return;
@@ -101,8 +99,7 @@ namespace Game_of_Life
         private int aliveNeighbors(Cell c)
         {
             int s = 0;
-            foreach (Cell n in c.Neighbors)
-                if (currentState.Contains(n)) s++;
+            foreach (Cell n in c.Neighbors) if (currentState.Contains(n)) s++;
             return s;
         }
         public void Next()
@@ -113,10 +110,7 @@ namespace Game_of_Life
             {
                 if (survival[aliveNeighbors(c)]) tmp.Add(c);
                 foreach (Cell n in c.Neighbors)
-                {
-                    if (!currentState.Contains(n) && birth[aliveNeighbors(n)])
-                        tmp.Add(n);
-                }
+                    if (!currentState.Contains(n) && birth[aliveNeighbors(n)]) tmp.Add(n);
             }
             states.Add(tmp);
             OnStateChange.Invoke();

@@ -15,7 +15,7 @@ namespace Game_of_Life
         {
             location = p;
         }
-        public Cell Move(int x, int y)
+        private Cell Move(int x, int y)
         {
             return new Cell(location.X + x, location.Y + y);
         }
