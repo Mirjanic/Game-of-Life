@@ -95,7 +95,7 @@ namespace Game_of_Life
         {
             x = y = 0; zoom = pb.Width / 20;
             states = new List<HashSet<Cell>>();
-            states.Add(new HashSet<Cell>(Cell.Comparer()));
+            states.Add(new HashSet<Cell>());
             OnStateChange.Invoke();
         }
         private int aliveNeighbors(Cell c)
@@ -108,7 +108,7 @@ namespace Game_of_Life
         public void Next()
         {
             if (!Interactive) return;
-            HashSet<Cell> tmp = new HashSet<Cell>(Cell.Comparer());
+            HashSet<Cell> tmp = new HashSet<Cell>();
             foreach (Cell c in currentState)
             {
                 if (survival[aliveNeighbors(c)]) tmp.Add(c);
@@ -168,10 +168,10 @@ namespace Game_of_Life
             y = float.Parse(data[1]);
             zoom = float.Parse(data[2]) * pb.Width;
             states = new List<HashSet<Cell>>();
-            states.Add(new HashSet<Cell>(Cell.Comparer()));
+            states.Add(new HashSet<Cell>());
             for (int i = 3; i < data.Length - 1; i++)
             {
-                if (data[i] == "F") { states.Add(new HashSet<Cell>(Cell.Comparer())); continue; }
+                if (data[i] == "F") { states.Add(new HashSet<Cell>()); continue; }
                 currentState.Add(new Cell(
                     int.Parse(data[i].Split('B')[0]), 
                     int.Parse(data[i].Split('B')[1])));

@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace Game_of_Life
 {
-    class Cell
+    class Cell : IEquatable<Cell>
     {
         Point location;
         public Cell(int x, int y)
@@ -19,6 +19,14 @@ namespace Game_of_Life
         {
             return new Cell(location.X + x, location.Y + y);
         }
+        public bool Equals(Cell other)
+        {
+            return location == other.location;
+        }
+        public override int GetHashCode()
+        {
+            return location.GetHashCode();
+        }
         public List<Cell> Neighbors
         {
             get
@@ -32,19 +40,7 @@ namespace Game_of_Life
             }
         }
         public Point Location { get { return location; } }
-        public static IEqualityComparer<Cell> Comparer() { return new EqualityComparer(); }
         public static implicit operator Point(Cell c) { return c.location; }
-        class EqualityComparer : IEqualityComparer<Cell>
-        {
-            public bool Equals(Cell x, Cell y)
-            {
-                return x.location == y.location;
-            }
 
-            public int GetHashCode(Cell obj)
-            {
-                return obj.location.GetHashCode();
-            }
-        }
     }
 }
