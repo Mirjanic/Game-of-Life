@@ -18,6 +18,7 @@ namespace Game_of_Life
         bool multicolor;
         bool moving;
         Point delta = new Point();
+        Random rnd = new Random();
 
         bool[] birth = { false, false, false, true, false, false, false, false, false };
         bool[] survival = { false, false, true, true, false, false, false, false, false };
@@ -27,7 +28,17 @@ namespace Game_of_Life
             get { return states[states.Count - 1]; }
             set { states[states.Count - 1] = value; }
         }
-
+        private List<Cell> visibleTiles
+        {
+            get
+            {
+                List<Cell> vt = new List<Cell>();
+                for (int i = (int)Math.Floor(x - pb.Width / 2 / zoom) - 1; i <= Math.Ceiling(pb.Width / 2 / zoom + x); i++)
+                    for (int j = (int)Math.Floor(y - pb.Height / 2 / zoom) - 1; j <= (int)Math.Ceiling(pb.Height / 2 / zoom + y); j++)
+                        vt.Add(new Cell(i, j));
+                return vt;
+            }
+        }
         public Life(PictureBox pb)
         {
             this.pb = pb;
@@ -75,19 +86,27 @@ namespace Game_of_Life
         }
         private void Pb_Paint(object sender, PaintEventArgs e)
         {
-            for (int i = (int)Math.Floor(x - pb.Width / 2 / zoom)-1; i <= Math.Ceiling(pb.Width / 2 / zoom + x); i++)
-                for (int j = (int)Math.Floor(y - pb.Height / 2 / zoom)-1; j <= (int)Math.Ceiling(pb.Height / 2 / zoom + y); j++)
-                    e.Graphics.FillRectangle(color(new Cell(i, j)),
-                        Math.Max(0,i * zoom - x * zoom + pb.Width / 2),
-                        Math.Max(0,j * zoom - y * zoom + pb.Height / 2),
-                        i * zoom - x * zoom + pb.Width / 2 + zoom, 
-                        j * zoom - y * zoom + pb.Height / 2 + zoom);
+            foreach (Cell c in visibleTiles)
+                e.Graphics.FillRectangle(color(c),
+                        Math.Max(0, c.Location.X * zoom - x * zoom + pb.Width / 2),
+                        Math.Max(0, c.Location.Y * zoom - y * zoom + pb.Height / 2),
+                        c.Location.X * zoom - x * zoom + pb.Width / 2 + zoom,
+                        c.Location.Y * zoom - y * zoom + pb.Height / 2 + zoom);
+                    
             if (zoom < 5) return;
             for (int i = (int)Math.Floor(x - pb.Width / 2 / zoom)-1; i <= Math.Ceiling(pb.Width / 2 / zoom + x); i++)
                 e.Graphics.DrawLine(Pens.LightGray, i*zoom - x * zoom + pb.Width / 2, 0, i*zoom - x * zoom + pb.Width / 2, pb.Height);
             for (int i = (int)(y - pb.Height / 2 / zoom)-1; i <= Math.Ceiling(pb.Height / 2 / zoom + y); i++)
                 e.Graphics.DrawLine(Pens.LightGray, 0, i*zoom - y * zoom + pb.Height / 2, pb.Width, i*zoom - y * zoom + pb.Height / 2);
 
+        }
+        public void Random()
+        {
+            states = new List<HashSet<Cell>>();
+            states.Add(new HashSet<Cell>());
+            foreach (Cell c in visibleTiles)
+                if (rnd.Next(0, 4) == 0) currentState.Add(c);
+            OnStateChange.Invoke();
         }
         public void Reset()
         {

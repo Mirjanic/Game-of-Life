@@ -19,14 +19,8 @@ namespace Game_of_Life
         {
             return new Cell(location.X + x, location.Y + y);
         }
-        public bool Equals(Cell other)
-        {
-            return location == other.location;
-        }
-        public override int GetHashCode()
-        {
-            return location.GetHashCode();
-        }
+        public bool Equals(Cell other) { return location == other.location; }
+        public override int GetHashCode() { return location.GetHashCode(); }
         public List<Cell> Neighbors
         {
             get

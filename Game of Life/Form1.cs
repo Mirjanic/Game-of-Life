@@ -22,7 +22,7 @@ namespace Game_of_Life
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("UNIMPLEMENTED");
+            l.Random();
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
