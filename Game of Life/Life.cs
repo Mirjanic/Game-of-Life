@@ -21,8 +21,8 @@ namespace Game_of_Life
 
         bool[] birth = { false, false, false, true, false, false, false, false, false };
         bool[] survival = { false, false, true, true, false, false, false, false, false };
-        List<HashSet<Point>> states;
-        private HashSet<Point> currentState
+        List<HashSet<Cell>> states;
+        private HashSet<Cell> currentState
         {
             get { return states[states.Count - 1]; }
             set { states[states.Count - 1] = value; }
@@ -59,8 +59,8 @@ namespace Game_of_Life
             if (!Interactive) return;
             if (moving) { moving = false; return; }
             int i = (int)Math.Floor((e.X + x * zoom - pb.Width / 2) / zoom), j = (int)Math.Floor((e.Y + y * zoom - pb.Height / 2) / zoom);
-            if (currentState.Contains(new Point(i, j))) currentState.Remove(new Point(i, j));
-            else currentState.Add(new Point(i, j));
+            if (currentState.Contains(new Cell(i, j))) currentState.Remove(new Cell(i, j));
+            else currentState.Add(new Cell(i, j));
             OnStateChange.Invoke();
         }
         private void Pb_MouseDown(object sender, MouseEventArgs e)
@@ -79,7 +79,7 @@ namespace Game_of_Life
         {
             for (int i = (int)Math.Floor(x - pb.Width / 2 / zoom)-1; i <= Math.Ceiling(pb.Width / 2 / zoom + x); i++)
                 for (int j = (int)Math.Floor(y - pb.Height / 2 / zoom)-1; j <= (int)Math.Ceiling(pb.Height / 2 / zoom + y); j++)
-                    e.Graphics.FillRectangle(color(i, j),
+                    e.Graphics.FillRectangle(color(new Cell(i, j)),
                         Math.Max(0,i * zoom - x * zoom + pb.Width / 2),
                         Math.Max(0,j * zoom - y * zoom + pb.Height / 2),
                         i * zoom - x * zoom + pb.Width / 2 + zoom, 
@@ -94,35 +94,29 @@ namespace Game_of_Life
         public void Reset()
         {
             x = y = 0; zoom = pb.Width / 20;
-            states = new List<HashSet<Point>>();
-            states.Add(new HashSet<Point>());
+            states = new List<HashSet<Cell>>();
+            states.Add(new HashSet<Cell>(Cell.Comparer()));
             OnStateChange.Invoke();
         }
-        private int aliveNeighbors(int x, int y)
+        private int aliveNeighbors(Cell c)
         {
             int s = 0;
-            int[] d = { -1, 0, 1 };
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    if ((i != 1 || j != 1) && currentState.Contains(new Point(x + d[i], y + d[j]))) s++;
+            foreach (Cell n in c.Neighbors)
+                if (currentState.Contains(n)) s++;
             return s;
-        }
-        private int aliveNeighbors(Point p)
-        {
-            return aliveNeighbors(p.X, p.Y);
         }
         public void Next()
         {
             if (!Interactive) return;
-            int[] d = { -1, 0, 1 };
-            HashSet<Point> tmp = new HashSet<Point>();
-            foreach (Point p in currentState)
+            HashSet<Cell> tmp = new HashSet<Cell>(Cell.Comparer());
+            foreach (Cell c in currentState)
             {
-                if (survival[aliveNeighbors(p)]) tmp.Add(p);
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        if ((i != 1 || j != 1) && !currentState.Contains(new Point(p.X + d[i], p.Y + d[j])) && birth[aliveNeighbors(new Point(p.X + d[i], p.Y + d[j]))])
-                            tmp.Add(new Point(p.X + d[i], p.Y + d[j]));
+                if (survival[aliveNeighbors(c)]) tmp.Add(c);
+                foreach (Cell n in c.Neighbors)
+                {
+                    if (!currentState.Contains(n) && birth[aliveNeighbors(n)])
+                        tmp.Add(n);
+                }
             }
             states.Add(tmp);
             OnStateChange.Invoke();
@@ -139,16 +133,16 @@ namespace Game_of_Life
         public bool Interactive { get; set; }
         public bool[] BirthRule { get { return birth; } set { birth = value; } }
         public bool[] SurvivalRule { get { return survival; } set { survival = value; } }
-        private Brush color(int i, int j)
+        private Brush color(Cell c)
         {
             if (!MultiColor)
             {
-                if (currentState.Contains(new Point(i, j))) return new Pen(Color.RoyalBlue).Brush;
+                if (currentState.Contains(c)) return new Pen(Color.RoyalBlue).Brush;
                 else return new Pen(Color.White).Brush;
             }
-            if (currentState.Contains(new Point(i, j)) && survival[aliveNeighbors(i, j)]) return new Pen(Color.RoyalBlue).Brush;
-            if (currentState.Contains(new Point(i, j))) return new Pen(Color.FromArgb(90, 0, 200)).Brush;
-            if (birth[aliveNeighbors(i, j)]) return new Pen(Color.LightBlue).Brush;
+            if (currentState.Contains(c) && survival[aliveNeighbors(c)]) return new Pen(Color.RoyalBlue).Brush;
+            if (currentState.Contains(c)) return new Pen(Color.FromArgb(90, 0, 200)).Brush;
+            if (birth[aliveNeighbors(c)]) return new Pen(Color.LightBlue).Brush;
             return new Pen(Color.White).Brush;
         }
         public void Export(StreamWriter sw)
@@ -173,12 +167,12 @@ namespace Game_of_Life
             x = float.Parse(data[0]);
             y = float.Parse(data[1]);
             zoom = float.Parse(data[2]) * pb.Width;
-            states = new List<HashSet<Point>>();
-            states.Add(new HashSet<Point>());
+            states = new List<HashSet<Cell>>();
+            states.Add(new HashSet<Cell>(Cell.Comparer()));
             for (int i = 3; i < data.Length - 1; i++)
             {
-                if (data[i] == "F") { states.Add(new HashSet<Point>()); continue; }
-                currentState.Add(new Point(
+                if (data[i] == "F") { states.Add(new HashSet<Cell>(Cell.Comparer())); continue; }
+                currentState.Add(new Cell(
                     int.Parse(data[i].Split('B')[0]), 
                     int.Parse(data[i].Split('B')[1])));
             }

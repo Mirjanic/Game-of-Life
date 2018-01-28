@@ -7,32 +7,33 @@ namespace Game_of_Life
     class Cell
     {
         Point location;
-        List<Cell> neighbors;
         public Cell(int x, int y)
         {
             location = new Point(x, y);
-            neighbors = new List<Cell>();
-            int[] d = { -1, 0, 1 };
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    if (i != 1 || j != 1) Move(i, j);
         }
         public Cell(Point p)
         {
             location = p;
-            neighbors = new List<Cell>();
-            int[] d = { -1, 0, 1 };
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    if (i != 1 || j != 1) Move(i, j);
         }
         public Cell Move(int x, int y)
         {
             return new Cell(location.X + x, location.Y + y);
         }
-        public List<Cell> Neighbors { get { return neighbors; } }
+        public List<Cell> Neighbors
+        {
+            get
+            {
+                List<Cell> neighbors;
+                neighbors = new List<Cell>();
+                for (int i = -1; i < 2; i++)
+                    for (int j = -1; j < 2; j++)
+                        if (i != 0 || j != 0) neighbors.Add(Move(i, j));
+                return neighbors;
+            }
+        }
         public Point Location { get { return location; } }
         public static IEqualityComparer<Cell> Comparer() { return new EqualityComparer(); }
+        public static implicit operator Point(Cell c) { return c.location; }
         class EqualityComparer : IEqualityComparer<Cell>
         {
             public bool Equals(Cell x, Cell y)
@@ -42,7 +43,7 @@ namespace Game_of_Life
 
             public int GetHashCode(Cell obj)
             {
-                return obj.GetHashCode();
+                return obj.location.GetHashCode();
             }
         }
     }
