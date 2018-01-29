@@ -55,3 +55,8 @@ D:\GitHub\Game-of-Life\Game of Life\obj\Debug\Game_of_Life.Properties.Resources.
 D:\GitHub\Game-of-Life\Game of Life\obj\Debug\Game_of_Life.Template_Picker.resources
 D:\GitHub\Game-of-Life\Game of Life\obj\Debug\Game of Life.csproj.GenerateResource.Cache
 D:\GitHub\Game-of-Life\Game of Life\obj\Debug\Game_of_Life.Rules.resources
+D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Templates\Big Beacon.life
+D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Templates\Clock.life
+D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Templates\Escalator.life
+D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Templates\Galaxy.life
+D:\GitHub\Game-of-Life\Game of Life\bin\Debug\Templates\Pentadecathlon.life
